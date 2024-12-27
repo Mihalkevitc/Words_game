@@ -1,0 +1,17 @@
+{
+    "name": "Игра: Соедини слоги",
+    "short_name": "Слоги",
+    "description": "Игра для соединения слогов в слова.",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#f0f4f8",
+    "theme_color": "#2e7d32",
+    "icons": [
+      {
+        "src": "favicon.ico",
+        "sizes": "48x48",
+        "type": "image/x-icon"
+      }
+    ]
+  }
+  
