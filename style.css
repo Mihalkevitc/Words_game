@@ -1,0 +1,610 @@
+.dragging {
+    opacity: 0.5;
+}
+
+body { 
+    /* для Safari */
+    -webkit-user-select: none;
+    user-select: none;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    background-color: #f0f4f8;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 35px;
+    padding: 30px;
+    padding-bottom: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    max-width: 900px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    transition: transform 0.3s ease;
+}
+
+.game-container:hover {
+    transform: scale(1.02);
+}
+
+.game-title {
+    margin: 0;
+}
+
+h1 {
+    font-size: 28px;
+    color: #2e7d32;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.syllable-pair,
+.slots {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.syllable,
+.slot {
+    background-color: #81c784;
+    padding: 12px 24px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+    font-size: 20px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.syllable:hover,
+.slot:hover {
+    background-color: #66bb6a;
+    transform: translateY(-3px);
+}
+
+.slot {
+    border: 2px dashed #66bb6a;
+    width: 130px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slot.empty {
+    animation: blink 2.5s infinite alternate;
+}
+
+@keyframes blink {
+    0% {
+        background-color: #81c784;
+    }
+
+    50% {
+        background-color: #d6f013;
+    }
+
+    100% {
+        background-color: #81c784;
+    }
+}
+
+.result {
+    font-size: 22px;
+    height: 20px;
+    margin-top: 0px;
+    margin-bottom: 25px;
+    font-weight: bold;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+}
+
+#result.show {
+    opacity: 1;
+}
+
+.reset-btn {
+    margin-top: 0;
+    padding: 12px 25px;
+    background-color: #ff7043;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.reset-btn:hover {
+    background-color: #f4511e;
+}
+
+.author {
+    font-size: 14px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-style: italic;
+    color: #999;
+}
+
+/* Стили для статистики */
+#stats {
+    align-items: stretch;
+}
+
+.stats-title {
+    font-size: 24px;
+    color: #2e7d32;
+    margin-top: -5px;
+    margin-bottom: 17px;
+    font-weight: 600;
+}
+
+.stats-columns {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.stat {
+    background-color: #81c784;
+    padding: 20px;
+    border-radius: 10px;
+    width: 120px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+#stat-1 {
+    background-color: #68c06c;
+}
+
+#stat-2 {
+    background-color: #ffe41c;
+}
+
+#stat-3 {
+    background-color: hsl(3, 100%, 65%);
+}
+
+.stat:hover {
+    background-color: #66bb6a;
+    transform: translateY(-5px);
+}
+
+.stat-label {
+    font-size: 14px;
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.stat-value {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* Кнопка перезагрузки */
+.reload-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff7043;
+    color: white;
+    border: none;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.3s ease;
+}
+
+.reload-btn:hover {
+    background-color: #f4511e;
+    transform: scale(1.1);
+}
+
+/* Модальное окно */
+.confirmation-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    display: none;
+    /* Скрыто по умолчанию */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.confirmation-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.confirm-btn,
+.cancel-btn {
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.confirm-btn {
+    background-color: #68c06c;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.confirm-btn:hover {
+    background-color: #4caf50;
+}
+
+.cancel-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* Стили для кнопки меню */
+.menu-container {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 1000;
+}
+
+.burger-btn {
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    color: #333;
+}
+
+/* Стили для самого меню */
+.menu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    width: 200px;
+    z-index: 999;
+}
+
+.menu-link {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    transition: background-color 0.5s;
+    transition: color 0.4s;
+}
+
+.menu-link:hover {
+    background-color: #81c784;
+    color: #fff;
+}
+
+/* Анимация для показа меню */
+.menu.open {
+    display: block;
+}
+
+/* Стили для таймера */
+.timer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    margin-top: 20px;
+    padding: 20px 40px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: auto;
+    max-width: 300px;
+}
+
+/* Таймер */
+.timer {
+    font-size: 30px;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Кнопка таймера */
+.timer-btn {
+    background-color: #68c06c;
+    color: white;
+    border: none;
+    width: 7rem;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.timer-btn:hover {
+    background-color: #4caf50;
+}
+
+
+/* Мобильная адаптация */
+@media (max-width: 1391px) {
+    .timer-container {
+        position: relative;
+        width: 100%;
+        margin-top: 20px;
+        top: 0;
+        left: 0;
+        padding: 15px 30px;
+    }
+
+    .timer {
+        font-size: 25px;
+    }
+
+    .timer-btn {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+}
+
+
+/* Мобильная адаптация */
+@media (max-width: 1024px) {
+    body {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .game-container {
+        max-width: 650px;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .syllable,
+    .slot {
+        font-size: 18px;
+        padding: 10px 18px;
+        margin: 5px;
+    }
+
+    .slot {
+        width: 110px;
+        height: 60px;
+    }
+
+    .reset-btn {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+
+    .author {
+        font-size: 12px;
+        margin-top: 30px;
+    }
+
+    .stats-columns {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .stat {
+        width: 150px;
+    }
+
+    .stat-value {
+        font-size: 28px;
+    }
+
+    .burger-btn {
+        font-size: 25px;
+    }
+
+    .menu {
+        width: 150px;
+    }
+
+    .menu-link {
+        font-size: 16px;
+    }
+
+    .timer-container {
+        position: relative;
+        width: 100%;
+        margin-top: 20px;
+        top: 0;
+        left: 0;
+        padding: 15px 30px;
+    }
+
+    .timer {
+        font-size: 25px;
+    }
+
+    .timer-btn {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+}
+
+/* Мобильная адаптация */
+@media (max-width: 480px) {
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+        height: auto;
+        margin: 0;
+    }
+
+    .game-container {
+        max-width: 75vw;
+        width: 100%;
+        margin-top: 0px;
+    }
+
+    h1 {
+        font-size: 23px;
+        margin-bottom: 15px;
+    }
+
+    .game-title {
+        margin-top: -10px;
+    }
+
+    .slots {
+        width: 90vw;
+        margin-bottom: 10px;
+        gap: 4vw;
+    }
+
+    #syllables {
+        margin-bottom: 10px;
+    }
+
+    .syllable,
+    .slot {
+        font-size: 23px;
+        padding: 8px 16px;
+        margin: 5px;
+    }
+
+    .slot {
+        width: 50px;
+        height: 50px;
+    }
+
+    .reset-btn {
+        font-size: 16px;
+        padding: 10px 15px;
+        min-width: 100%;
+    }
+
+    .author {
+        font-size: 12px;
+        margin-top: 20px;
+    }
+
+    .result {
+        height: 25px;
+        font-size: 16px;
+        padding: 10px 0px;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    #stats {
+        margin-top: 20px;
+    }
+
+    .stats-columns {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .stat {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-between;
+        width: 140px;
+        padding: 9px 25px;
+        text-align: left;
+    }
+
+    .stat-value {
+        font-size: 24px;
+        margin-top: 3px;
+    }
+
+    .menu-container {
+        top: 13px;
+        left: 0px;
+        margin-right: 10px;
+    }
+
+    .burger-btn {
+        font-size: 25px;
+    }
+
+    .menu {
+        width: 150px;
+    }
+
+    .menu-link {
+        font-size: 16px;
+    }
+
+    .timer-container {
+        padding: 15px 30px;
+        max-width: 75vw;
+        width: 100%;
+        align-self: center;
+    }
+
+    .timer {
+        font-size: 22px;
+    }
+
+    .timer-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}

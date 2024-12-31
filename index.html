@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игра: Соедини слоги</title>
+    <link rel="icon" href="favicon.ico" type="image/png">
+
+    <!-- Подключение библиотеки drag-drop-touch -->
+    <script src="distdrag-drop-touch.esm.min.js"> </script>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <!-- Кнопка меню -->
+        <div class="menu-container">
+            <button class="burger-btn" onclick="toggleMenu()">☰</button>
+            <div class="menu" id="menu">
+                <a href="/page1" class="menu-link">Страница 1</a>
+                <a href="/page2" class="menu-link">Страница 2</a>
+                <a href="/page3" class="menu-link">Страница 3</a>
+            </div>
+        </div>
+
+        <h1 class="game-title">Игра - Соедини слоги!</h1>
+        <div id="slots" class="slots">
+            <!-- Слоты для перетаскивания слогов -->
+        </div>
+        <div id="syllables" class="syllable-pair">
+            <!-- Слоги для перетаскивания -->
+        </div>
+        <div id="result" class="result"></div>
+        <button class="reset-btn" onclick="startGame()">Начать заново</button>
+
+    </div>
+
+    <div class="game-container" id="stats">
+        <h2 class="stats-title">Статистика</h2>
+        <div class="stats-columns">
+            <div class="stat" id="stat-1">
+                <p class="stat-label">Правильных ответов</p>
+                <p class="stat-value" id="correctAnswers">0</p>
+            </div>
+            <div class="stat" id="stat-2">
+                <p class="stat-label">Игр сыграно</p>
+                <p class="stat-value" id="gamesPlayed">0</p>
+            </div>
+            <div class="stat" id="stat-3">
+                <p class="stat-label">Неправильных ответов</p>
+                <p class="stat-value" id="incorrectAnswers">0</p>
+            </div>
+        </div>
+
+        <!-- Кнопка для перезагрузки -->
+        <button id="reloadBtn" class="reload-btn">🔄</button>
+
+        <!-- Модальное окно подтверждения перезагрузки -->
+        <div id="confirmationModal" class="confirmation-modal">
+            <div class="confirmation-modal-content">
+                <p>Вы действительно хотите сбросить результаты?</p>
+                <button id="confirmReload" class="confirm-btn">Да</button>
+                <button id="cancelReload" class="cancel-btn">Нет</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Таймер -->
+    <div class="timer-container">
+        <div id="timer" class="timer">00:00</div>
+        <button id="timerButton" class="timer-btn" onclick="toggleTimer()">Запустить</button>
+    </div>
+
+    <div class="author">© 2024 Михалькевич Влад</div>
+
+    <script src="script.js"></script>
+
+    <!-- Регистрация сервиса Приложение в стиле PWA (Progressive Web App)-->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker зарегистрирован: ', registration);
+                    })
+                    .catch(error => {
+                        console.log('Ошибка при регистрации Service Worker: ', error);
+                    });
+            });
+        }
+    </script>
+
+</body>
+
+</html>
