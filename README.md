@@ -1,6 +1,6 @@
 # Обучающая игра для детей "Собери слово"
 
-[![Демо игры](https://img.shields.io/badge/Play-Demo-brightgreen)](https://mihalkevitc.github.io/Words_game/)
+[Попробовать игру](https://mihalkevitc.github.io/Words_game/)
 
 Это интерактивная игра, созданная для помощи детям в обучении чтению. Игра использует механизм перетаскивания (Drag-and-Drop), чтобы сделать процесс обучения увлекательным и простым.
 
